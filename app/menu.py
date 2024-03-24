@@ -17,7 +17,7 @@ class AppMenuWidget:
         self.defaultEditorMode.triggered.connect(self.setDefaultModeAction)
 
         self.lineEditorMode = QAction(QIcon('assets/check.png'), "Line", window)
-        self.lineEditorMode.setShortcut("Ctrl+L")
+        self.lineEditorMode.setShortcut("Ctrl+F")
         self.lineEditorMode.setIconVisibleInMenu(False)
         self.lineEditorMode.triggered.connect(self.setLineModeAction)
 

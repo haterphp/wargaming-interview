@@ -25,5 +25,5 @@ RECTANGLE_COLORS = (
 )
 
 # Line settings
-LINE_SIZE = 3
+LINE_SIZE = 5
 LINE_COLOR = QColor("#000000")

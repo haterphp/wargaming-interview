@@ -1,11 +1,11 @@
-from typing import List
+from typing import List, Optional
 
 from PySide6.QtCore import QPoint
 
 from widgets.rectangle.widget import RectWidget
+from widgets.line.widget import LineWidget
 
 from app.common.interfaces.window import IAppWindow
-
 from app.common.enums.mode import AppModeEnum
 
 
@@ -22,7 +22,7 @@ class IRectangleModel:
     def findAndSetDraggedElement(self, point: QPoint) -> bool:
         return False
 
-    def findRectByPosition(self, point: QPoint) -> (RectWidget | None):
+    def findRectByPosition(self, point: QPoint) -> Optional[RectWidget]:
         return None
 
     def moveDraggedRectByPoint(self, point: QPoint):
@@ -37,9 +37,15 @@ class ILineModel:
         self.window = window
 
         # Define list for our LineWidgets
-        self.lines: List = []
+        self.lines: List[LineWidget] = []
 
     def makeOrUpdateTargetLine(self, rect: RectWidget):
+        pass
+
+    def unlinkLine(self, line: LineWidget):
+        pass
+
+    def findLineByPosition(self, position: QPoint) ->Optional[LineWidget]:
         pass
 
 

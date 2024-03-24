@@ -1,3 +1,5 @@
+from typing import Optional
+
 from PySide6.QtCore import QPoint
 
 from widgets.rectangle.widget import RectWidget
@@ -14,8 +16,8 @@ class RectangleModel(IRectangleModel):
         super().__init__(window)
 
         # Define variables for dragged element
-        self.__draggedRect: RectWidget | None = None
-        self.__lastEventPoint: QPoint | None = None
+        self.__draggedRect: Optional[RectWidget] = None
+        self.__lastEventPoint: Optional[QPoint] = None
 
     # Make new Rect by coordinate
     def makeANewRectangle(self, point: QPoint):
@@ -34,7 +36,7 @@ class RectangleModel(IRectangleModel):
             self.rectangles.append(rect)
 
     # Find rect in painter by coordinate
-    def findRectByPosition(self, point: QPoint) -> (RectWidget | None):
+    def findRectByPosition(self, point: QPoint) -> Optional[RectWidget]:
         x = point.x()
         y = point.y()
 

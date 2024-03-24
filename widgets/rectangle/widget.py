@@ -42,5 +42,6 @@ class RectWidget(QRect, IProjectWidget):
         self.emitUpdates(self.getCenterCoordinates())
 
     def emitUpdates(self, position: QPoint):
+        print(len(self._subscribeCallbacks))
         for callback in self._subscribeCallbacks:
             callback(position)

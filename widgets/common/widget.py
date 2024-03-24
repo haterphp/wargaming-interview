@@ -10,7 +10,13 @@ class IProjectWidget:
         pass
 
     def subscribeToUpdates(self, callback):
+        if callback in self._subscribeCallbacks:
+            self._subscribeCallbacks.remove(callback)
         self._subscribeCallbacks.append(callback)
+
+    def unsubscribeFromUpdates(self, callback):
+        if callback in self._subscribeCallbacks:
+            self._subscribeCallbacks.remove(callback)
 
     def emitUpdates(self):
         for callback in self._subscribeCallbacks:
