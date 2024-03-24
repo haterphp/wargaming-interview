@@ -8,32 +8,43 @@ from app.common.interfaces.models import IAppModel
 
 class AppMenuWidget:
     def __init__(self, window: IAppWindow, model: IAppModel):
+        fileMenu = window.menuBar().addMenu("File")
         modeMenu = window.menuBar().addMenu("Mode")
 
         self.__model = model
 
-        self.defaultEditorMode = QAction(QIcon('assets/check.png'), "Default", window)
-        self.defaultEditorMode.setShortcut("Ctrl+D")
-        self.defaultEditorMode.triggered.connect(self.setDefaultModeAction)
+        # Make toggle to default editor mode action
+        self.defaultEditorModeAction = QAction(QIcon('assets/check.png'), "Default", window)
+        self.defaultEditorModeAction.setShortcut("Ctrl+D")
+        self.defaultEditorModeAction.triggered.connect(self.setDefaultModeAction)
 
-        self.lineEditorMode = QAction(QIcon('assets/check.png'), "Line", window)
-        self.lineEditorMode.setShortcut("Ctrl+F")
-        self.lineEditorMode.setIconVisibleInMenu(False)
-        self.lineEditorMode.triggered.connect(self.setLineModeAction)
+        # Make toggle to line editor mode action
+        self.lineEditorModeAction = QAction(QIcon('assets/check.png'), "Line", window)
+        self.lineEditorModeAction.setShortcut("Ctrl+F")
+        self.lineEditorModeAction.setIconVisibleInMenu(False)
+        self.lineEditorModeAction.triggered.connect(self.setLineModeAction)
 
-        modeMenu.addAction(self.defaultEditorMode)
-        modeMenu.addAction(self.lineEditorMode)
+        # Make clear scene action
+        self.clearAction = QAction("Clear Scene", window)
+        self.clearAction.setShortcut("Ctrl+C")
+        self.clearAction.triggered.connect(self.__model.clear)
+
+        # Append actions for menu bars
+        modeMenu.addAction(self.defaultEditorModeAction)
+        modeMenu.addAction(self.lineEditorModeAction)
+
+        fileMenu.addAction(self.clearAction)
 
     # Callback for changing mode to default
     def setDefaultModeAction(self):
-        self.defaultEditorMode.setIconVisibleInMenu(True)
-        self.lineEditorMode.setIconVisibleInMenu(False)
+        self.defaultEditorModeAction.setIconVisibleInMenu(True)
+        self.lineEditorModeAction.setIconVisibleInMenu(False)
 
         self.__model.toggleMode(AppModeEnum.DEFAULT)
 
     # Callback for changing mode to line
     def setLineModeAction(self):
-        self.defaultEditorMode.setIconVisibleInMenu(False)
-        self.lineEditorMode.setIconVisibleInMenu(True)
+        self.defaultEditorModeAction.setIconVisibleInMenu(False)
+        self.lineEditorModeAction.setIconVisibleInMenu(True)
 
         self.__model.toggleMode(AppModeEnum.LINE)

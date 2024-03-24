@@ -64,3 +64,11 @@ class IAppModel:
 
     def toggleMode(self, mode: AppModeEnum):
         self.mode = mode
+
+    def clear(self):
+        self.mode = AppModeEnum.DEFAULT
+
+        self.rectangleModel.rectangles = []
+        self.lineModel.lines = []
+
+        self.window.update()
