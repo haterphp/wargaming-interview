@@ -45,7 +45,7 @@ class ILineModel:
     def unlinkLine(self, line: LineWidget):
         pass
 
-    def findLineByPosition(self, position: QPoint) ->Optional[LineWidget]:
+    def findLineByPosition(self, position: QPoint) -> Optional[LineWidget]:
         pass
 
 

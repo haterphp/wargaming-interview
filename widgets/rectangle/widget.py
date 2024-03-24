@@ -20,6 +20,7 @@ class RectWidget(QRect, IProjectWidget):
         # Choice random color
         self.__color = choice(RECTANGLE_COLORS)
 
+    # Get rectangle center coordinate
     def getCenterCoordinates(self) -> QPoint:
         return QPoint(
             self.left() + RECTANGLE_HALF_WIDTH,
@@ -32,6 +33,7 @@ class RectWidget(QRect, IProjectWidget):
         painter.fillRect(self, self.__color)
         painter.drawRect(self.normalized())
 
+    # Move rectangle to position
     def move(self, position: IRectPosition):
         self.setLeft(position.left)
         self.setRight(position.right)
@@ -41,7 +43,7 @@ class RectWidget(QRect, IProjectWidget):
         # Emit new position for all connections
         self.emitUpdates(self.getCenterCoordinates())
 
+    # Emit new position for subscribers
     def emitUpdates(self, position: QPoint):
-        print(len(self._subscribeCallbacks))
         for callback in self._subscribeCallbacks:
             callback(position)
