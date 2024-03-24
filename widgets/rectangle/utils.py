@@ -12,11 +12,10 @@ class IRectMoveOffsets:
         return self.__offsetY
 
 
-class IRectMoveBorders:
-    def __init__(self, right: int, bottom: int, left: int = 0, top: int = 0):
+class IRectPosition:
+    def __init__(self, left: int, right: int, top: int, bottom: int):
         self.__left = left
         self.__right = right
-
         self.__top = top
         self.__bottom = bottom
 
@@ -35,3 +34,15 @@ class IRectMoveBorders:
     @property
     def bottom(self):
         return self.__bottom
+
+    def setLeft(self, left: int):
+        self.__left = left
+
+    def setRight(self, right: int):
+        self.__right = right
+
+    def setTop(self, top: int):
+        self.__top = top
+
+    def setBottom(self, bottom: int):
+        self.__bottom = bottom

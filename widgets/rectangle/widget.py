@@ -1,22 +1,30 @@
-from PySide6.QtCore import QRect, QPoint, Qt
-
 from random import choice
 
+from PySide6.QtCore import QRect, QPoint, Qt
 from PySide6.QtGui import QPainter
 
 from widgets.common.widget import IProjectWidget
-from widgets.rectangle.utils import IRectMoveOffsets, IRectMoveBorders
+from widgets.rectangle.utils import IRectPosition
 
-from settings import RECTANGLE_COLORS
+from settings import RECTANGLE_HALF_WIDTH, RECTANGLE_HALF_HEIGHT, RECTANGLE_COLORS
 
 
 class RectWidget(QRect, IProjectWidget):
 
-    def __init__(self, start: QPoint, end: QPoint):
+    def __init__(self, position: IRectPosition):
+        start = QPoint(position.left, position.top)
+        end = QPoint(position.right, position.bottom)
+
         super().__init__(start, end)
 
         # Choice random color
         self.__color = choice(RECTANGLE_COLORS)
+
+    def getCenterCoordinates(self) -> QPoint:
+        return QPoint(
+            self.left() + RECTANGLE_HALF_WIDTH,
+            self.top() + RECTANGLE_HALF_HEIGHT
+        )
 
     def draw(self, painter: QPainter):
         painter.setPen(Qt.NoPen)
@@ -24,20 +32,15 @@ class RectWidget(QRect, IProjectWidget):
         painter.fillRect(self, self.__color)
         painter.drawRect(self.normalized())
 
-    def recalculate(self, offsets: IRectMoveOffsets, borders: IRectMoveBorders):
-        self.__moveXCoordinate(offsets.offsetX, borders)
-        self.__moveYCoordinate(offsets.offsetY, borders)
+    def move(self, position: IRectPosition):
+        self.setLeft(position.left)
+        self.setRight(position.right)
+        self.setTop(position.top)
+        self.setBottom(position.bottom)
 
-    def __moveXCoordinate(self, offset: int, borders: IRectMoveBorders):
-        left = self.left() + offset
-        right = self.right() + offset
+        # Emit new position for all connections
+        self.emitUpdates(self.getCenterCoordinates())
 
-        if left > borders.left and right < borders.right:
-            self.moveLeft(left)
-
-    def __moveYCoordinate(self, offset: int, borders: IRectMoveBorders):
-        top = self.top() + offset
-        bottom = self.bottom() + offset
-
-        if top > borders.top and bottom < borders.bottom:
-            self.moveTop(top)
+    def emitUpdates(self, position: QPoint):
+        for callback in self._subscribeCallbacks:
+            callback(position)

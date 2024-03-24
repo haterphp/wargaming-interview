@@ -1,5 +1,7 @@
 from PySide6.QtWidgets import QMainWindow
 
+from settings import WINDOW_MENU_HEIGHT
+
 
 class IWindowBorders:
     def __init__(self, window: QMainWindow):
@@ -8,7 +10,7 @@ class IWindowBorders:
         self.__left = 0
         self.__right = window.width()
 
-        self.__top = 0
+        self.__top = WINDOW_MENU_HEIGHT
         self.__bottom = window.height()
 
     @property

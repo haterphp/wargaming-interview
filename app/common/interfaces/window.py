@@ -1,5 +1,4 @@
 from PySide6.QtWidgets import QMainWindow
-from PySide6.QtCore import QPoint
 
 from app.common.utils import IWindowBorders, IWindowSetting
 
@@ -18,20 +17,3 @@ class IAppWindow(QMainWindow):
     # Event for update window borders
     def resizeEvent(self, event):
         self.borders.recalculate()
-
-
-class IAppModel:
-    def __init__(self, window: IAppWindow):
-        self.window = window
-
-    def makeANewRectangle(self, point: QPoint):
-        pass
-
-    def findAndSetDraggedElement(self, point: QPoint) -> bool:
-        return False
-
-    def moveDraggedRectByPoint(self, point: QPoint):
-        pass
-
-    def resetDraggedElement(self):
-        pass

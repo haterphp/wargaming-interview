@@ -3,9 +3,10 @@ from settings import WINDOW_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT
 from PySide6.QtGui import QPainter
 
 from app.common.utils import IWindowSetting
-from app.common.interfaces import IAppWindow
+from app.common.interfaces.window import IAppWindow
 
 from app.model import AppModel
+from app.menu import AppMenuWidget
 
 
 class AppWindow(IAppWindow):
@@ -26,11 +27,19 @@ class AppWindow(IAppWindow):
         # Define AppModel
         self.__model = AppModel(self)
 
+        # Define AppMenu controller
+        self.__menu = AppMenuWidget(self, self.__model)
+
     def paintEvent(self, event):
         painter = QPainter(self)
 
-        for rect in self.__model.rectangles:
+        # Draw rectangles on scene
+        for rect in self.__model.rectangleModel.rectangles:
             rect.draw(painter)
+
+        # Draw lines on scene
+        for line in self.__model.lineModel.lines:
+            line.draw(painter)
 
     # Mouse event handlers
     def mouseDoubleClickEvent(self, event):
